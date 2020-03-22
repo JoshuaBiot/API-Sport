@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+   <title>API Foot</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="semantic.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="semantic.min.css">
+   <link rel="stylesheet" type="text/css" href="API-Sport.css">
+  <script src="assets/library/jquery.min.js"></script>
+  <script src="../dist/components/visibility.js"></script>
+  <script src="../dist/components/sidebar.js"></script>
+  <script src="../dist/components/transition.js"></script>
+</head>
+
+<body>
+
+<div id="progress"></div>
+
+  <script>
+  // Script pour la barre latérale de progression
+  window.onload = () => {
+    window.addEventListener("scroll", () => {
+        // Calcul de la hauteur "utile" du document
+        let hauteur = document.documentElement.scrollHeight - window.innerHeight
+
+        // Récupération de la position verticale
+        let position = window.scrollY
+
+        // Récupération de la largeur de la fenêtre
+        let largeur = document.documentElement.clientWidth
+
+        // Calcul de la largeur de la barre
+        let barre = position / hauteur * largeur
+
+        // Modification du CSS de la barre
+        document.getElementById("progress").style.width = barre+"px"
+      })
+  }
+  </script>
+
+<!-- Menu barre latérale -->
+<div class="pusher">
+  <div class="ui inverted vertical masthead center aligned segment">
+    <div class="ui container">
+      <div class="ui large secondary inverted pointing menu">
+        <a class="active item">Accueil</a>
+        <a class="item">Dernières actus</a>
+        <a class="item">Votre équipe</a>
+        <a class="item">Abonnements</a>
+        <div class="right item">
+          <a class="ui inverted button">Connexion</a>
+          <a class="ui inverted button">Inscription</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui text container">
+      <h1 class="ui inverted header">
+        Créez votre équipe de rêve
+      </h1>
+      <h2>Vous pouvez le faire dès maintenant</h2>
+      <div class="ui huge primary button">Démarrez</div>
+    </div>
+
+  </div>
+
+  <div class="ui vertical stripe segment">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="eight wide column">
+			<div id="demo">
+	
+		<h1>Entrez le nom d'une équipe pour connaître le logo:</h1>
+		   <div class="ui buttons">
+            <button class="ui button" type="button" onclick="loadDog()">Rechercher</button>
+		   </div>
+		   
+	       
+		   <div class="ui search">
+            <div class="ui icon input">
+             <input name="nom" id="nom" class="prompt" type="text" placeholder="Nom de l'équipe">
+            </div>
+            
+	        <div id="monEquipe"></div>
+	       </div>
+    </div>
+          <h3 class="ui header">FAITES DES MATCHS QUAND VOUS LE VOULEZ !</h3>
+           <p>Jeux de manager proposant différents types de matchs comme les matchs de division, les matchs de compétition ou les matchs amicaux.
+             Vous pouvez vous lancer dans des matchs de division et amicaux quand vous le voulez.</p>
+          <h3 class="ui header">FACILE À PRENDRE EN MAIN</h3>
+           <p>Une interface utilisateur de jeu d'entraîneur de foot facile à prendre en main pour que vous appreniez à jouer au jeu aussi vite que possible.
+             Presque zéro temps de chargement pour une expérience de jeu de foot exceptionnelle.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="center aligned column">
+          <a class="ui huge button">Règles du jeu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui inverted vertical footer segment">
+    <div class="ui container">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="three wide column">
+          <h4 class="ui inverted header">Autres</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Contactez-nous</a>
+            <a href="#" class="item">Mention légales</a>
+            <a href="#" class="item">Newsletters</a>
+            <a href="#" class="item">Politique d'utilisation des cookies</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">Suivez-nous sur</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Facebook</a>
+            <a href="#" class="item">Twitter</a>
+            <a href="#" class="item">Instagram</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">Contact</h4>
+          <p>1 rue Horizon-Vert</p>
+		  <p>37176 Chambray-lès-Tours</p>
+		  <p>Tél: 01 86 95 32 43</p>
+		  <p>Email : api@foot.fr</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+	<script>
+		function loadDoc()
+		{
+			var pelem = document.createElement('p');
+			pelem.innerText = "equipe";
+			document.getElementById("monEquipe").appendChild(pelem);
+		}
+	
+		function getXDomainRequest() {
+			var xdr = null;
+			if (window.XDomainRequest) {
+				xdr = new XDomainRequest();
+			} else if (window.XMLHttpRequest) {
+				xdr = new XMLHttpRequest(); 
+			} else {
+				alert("Votre navigateur ne gère pas l'AJAX cross-domain !");
+			}	
+			return xdr;	
+		}
+		
+		function loadDog(){
+			var link = "https://api-football-v1.p.rapidapi.com/v2/teams/team/33";
+			link = link.concat(document.getElementById("nom").value);
+			link = link.concat("/images/random");
+
+			var xdrRequest =  getXDomainRequest();
+			
+			xdrRequest.open("GET", link);
+			
+			xdrRequest.onload = function() {
+				var asup = document.getElementById("equipe");
+				if(asup){asup.parentNode.removeChild(asup);}
+
+				var divEquipe = document.getElementById("monEquipe");
+				var lequipe = JSON.parse(this.responseText);
+				
+				var imgElement = document.createElement('img');
+				imgElement.id = "equipe";
+				
+				imgElement.src = lequipe.message;
+				divEquipe.appendChild(imgElement);
+			}	
+			xdrRequest.send();
+						
+		}	
+	</script>
+</body>
+</html>
